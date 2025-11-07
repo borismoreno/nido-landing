@@ -2,11 +2,12 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind'
 import mdx from '@astrojs/mdx'
-import node from '@astrojs/node'
+import awsAmplify from 'astro-aws-amplify';
 
 // https://astro.build/config
 export default defineConfig({
     integrations: [tailwind(), mdx()],
     site: 'https://minidoapp.com',
-    adapter: node({ mode: 'standalone' })
+    output: 'server',
+    adapter: awsAmplify()
 });
