@@ -7,7 +7,7 @@ import awsAmplify from 'astro-aws-amplify';
 // https://astro.build/config
 export default defineConfig({
     integrations: [tailwind(), mdx()],
-    site: 'https://minidoapp.com',
+    site: 'https://master.dfwmcx7ncrse1.amplifyapp.com',
     output: 'server',
     adapter: awsAmplify()
 });
