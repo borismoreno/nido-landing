@@ -1,0 +1,29 @@
+---
+const { post } = Astro.props;
+const formattedDate = new Date(post.data.date).toLocaleDateString("es-ES", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+});
+---
+
+<article
+    class="bg-white rounded-2xl shadow-soft hover:shadow-lg transition p-6 flex flex-col justify-between border border-gray-100"
+>
+    <div>
+        <h2 class="text-xl font-semibold text-coral mb-2">
+            {post.data.title}
+        </h2>
+        <p class="text-sm text-gray-500 mb-3">{formattedDate}</p>
+        <p class="text-gray-700 text-base leading-relaxed mb-4">
+            {post.data.description}
+        </p>
+    </div>
+
+    <a
+        href={`/blog/${post.id}`}
+        class="inline-block mt-auto bg-coral text-white px-4 py-2 rounded-xl text-center font-medium hover:bg-[#d56b63] transition"
+    >
+        Leer más →
+    </a>
+</article>

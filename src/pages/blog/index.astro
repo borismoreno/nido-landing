@@ -1,0 +1,21 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import BlogCard from "../../components/BlogCard.astro";
+import { getCollection } from "astro:content";
+
+const aux = await getCollection("blog");
+const posts = (await getCollection("blog")).sort(
+    (a: any, b: any) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+---
+
+<BaseLayout title="Blog — MiNido">
+    <section class="max-w-4xl mx-auto p-6">
+        <h1 class="text-3xl font-bold text-center mb-10">
+            Consejos y finanzas en pareja 💬
+        </h1>
+        <div class="grid gap-8 sm:grid-cols-2">
+            {posts.map((post: unknown) => <BlogCard post={post} />)}
+        </div>
+    </section>
+</BaseLayout>

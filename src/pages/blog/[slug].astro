@@ -1,0 +1,43 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection, render } from "astro:content";
+// 1. Generate a new path for every collection entry
+export async function getStaticPaths() {
+    const posts = await getCollection("blog");
+    return posts.map((post) => ({
+        params: { slug: post.id },
+        props: { post },
+    }));
+}
+// 2. For your template, you can get the entry directly from the prop
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const formattedDate = new Date(post.data.date).toLocaleDateString("es-ES", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+});
+---
+
+<BaseLayout
+    title={`${post.data.title} — MiNido`}
+    description={post.data.description}
+>
+    <article
+        class="max-w-3xl mx-auto px-6 py-12 bg-white rounded-2xl shadow-soft"
+    >
+        <a href="/blog" class="text-gray-500 text-sm hover:underline mb-6 block"
+            >← Volver al blog</a
+        >
+
+        <h1 class="text-4xl font-bold text-coral mb-3 leading-snug">
+            {post.data.title}
+        </h1>
+        <p class="text-gray-500 mb-8">{formattedDate}</p>
+
+        <div class="prose prose-lg text-gray-800">
+            <Content />
+        </div>
+    </article>
+</BaseLayout>
