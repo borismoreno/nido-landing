@@ -7,7 +7,7 @@ import netlify from '@astrojs/netlify';
 // https://astro.build/config
 export default defineConfig({
     integrations: [tailwind(), mdx()],
-    site: 'https://master.dfwmcx7ncrse1.amplifyapp.com',
+    site: 'https://minidoapp.com',
     // output: 'server',
     adapter: netlify()
 });
