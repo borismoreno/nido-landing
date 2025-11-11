@@ -1,0 +1,166 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+    title="Contáctanos — MiNido"
+    description="Envíanos un mensaje, nos encantará leerte 💌"
+>
+    <section
+        class="bg-beige min-h-screen flex items-center justify-center px-4 py-16"
+    >
+        <div
+            class="max-w-2xl w-full bg-white rounded-2xl shadow-soft p-6 sm:p-10"
+        >
+            <h1
+                class="text-3xl sm:text-4xl font-bold text-coral text-center mb-4"
+            >
+                ¡Hablemos!
+            </h1>
+            <p class="text-center text-gray-600 mb-8">
+                Si tienes dudas, sugerencias o simplemente quieres saludarnos,
+                envíanos un mensaje. Te responderemos muy pronto 💕
+            </p>
+
+            <form id="contacto-form" class="flex flex-col gap-4">
+                <input type="hidden" name="form-name" value="contacto" />
+
+                <div>
+                    <label
+                        for="nombre"
+                        class="block text-gray-700 font-medium mb-1"
+                    >
+                        Nombre
+                    </label>
+                    <input
+                        autocomplete="off"
+                        id="nombre"
+                        name="nombre"
+                        type="text"
+                        required
+                        class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-coral focus:outline-none"
+                        placeholder="Tu nombre"
+                    />
+                </div>
+
+                <div>
+                    <label
+                        for="email"
+                        class="block text-gray-700 font-medium mb-1"
+                    >
+                        Correo electrónico
+                    </label>
+                    <input
+                        autocomplete="off"
+                        id="email"
+                        name="email"
+                        type="email"
+                        required
+                        class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-coral focus:outline-none"
+                        placeholder="tu@correo.com"
+                    />
+                </div>
+
+                <div>
+                    <label
+                        for="mensaje"
+                        class="block text-gray-700 font-medium mb-1"
+                    >
+                        Mensaje
+                    </label>
+                    <textarea
+                        id="mensaje"
+                        name="mensaje"
+                        required
+                        rows="5"
+                        class="w-full border border-gray-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-coral focus:outline-none resize-none"
+                        placeholder="Cuéntanos en qué podemos ayudarte..."
+                    ></textarea>
+                </div>
+
+                <button
+                    class="w-full bg-coral text-white py-3 rounded-xl font-semibold hover:bg-[#d56b63] transition"
+                >
+                    Enviar mensaje
+                </button>
+                <p
+                    id="success-msg"
+                    class="hidden text-green-600 text-sm text-center mt-2 animate-fadeIn"
+                >
+                </p>
+                <p
+                    id="error-msg"
+                    class="hidden text-red-600 text-sm text-center mt-2 animate-fadeIn"
+                >
+                </p>
+            </form>
+
+            <p class="text-center text-gray-500 text-sm mt-8">
+                También puedes escribirnos a
+                <a
+                    href="mailto:hola@minidoapp.com"
+                    class="text-coral font-medium hover:underline"
+                >
+                    hola@minidoapp.com
+                </a>
+            </p>
+        </div>
+    </section>
+</BaseLayout>
+
+<script>
+    import { actions } from "astro:actions";
+
+    const form = document.querySelector<HTMLFormElement>("#contacto-form");
+    const successMsg = document.querySelector(
+        "#success-msg",
+    ) as HTMLParagraphElement;
+    const errorMsg = document.querySelector(
+        "#error-msg",
+    ) as HTMLParagraphElement;
+
+    form?.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        successMsg.textContent = "";
+        errorMsg.textContent = "";
+        successMsg.classList.add("hidden");
+        errorMsg.classList.add("hidden");
+
+        const formData = new FormData(form);
+        const { data, error } =
+            await actions.contactoActions.addContactoForm(formData);
+        if (error) {
+            errorMsg.textContent =
+                error.message || "Ocurrió un error al enviar el formulario 😢";
+            errorMsg.classList.remove("hidden");
+        } else if (!data?.success) {
+            errorMsg.textContent =
+                data.message || "Ocurrió un error al enviar el formulario 😢";
+            errorMsg.classList.remove("hidden");
+        } else if (data?.success) {
+            successMsg.textContent =
+                data.message || "¡Gracias por contactarnos! 💌";
+            successMsg.classList.remove("hidden");
+            form.reset();
+        } else {
+            errorMsg.textContent = "No se pudo procesar el formulario.";
+            errorMsg.classList.remove("hidden");
+        }
+    });
+</script>
+
+<style>
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(5px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    .animate-fadeIn {
+        animation: fadeIn 0.3s ease-out;
+    }
+</style>

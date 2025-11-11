@@ -1,6 +1,7 @@
 import { defineAction } from 'astro:actions';
 import { z } from 'astro:schema';
 import { suscribirNewsletter } from '../lib/newsletterService';
+import { contactoActions } from './contacto.actions';
 
 export const server = {
     newsletter: defineAction({
@@ -12,5 +13,6 @@ export const server = {
             const { success, message } = await suscribirNewsletter(email);
             return { success, message }
         }
-    })
+    }),
+    contactoActions
 }
