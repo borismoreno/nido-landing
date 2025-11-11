@@ -1,8 +1,9 @@
 import { supabase } from "./supabaseClient";
 
-export async function suscribirNewsletter(email: string) {
+export async function suscribirNewsletter(email: string, nombre?: string) {
     try {
         if (!email) throw new Error('El correo electrónico es obligatorio')
+        if (nombre) throw new Error('Detección de bot')
 
         // 🚀 Insertar el registro
         const { error } = await supabase.from('newsletter').insert([{ email }])

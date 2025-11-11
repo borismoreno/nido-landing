@@ -4,12 +4,16 @@ export interface Contacto {
     nombre: string
     email: string
     mensaje: string
+    empresa?: string
 }
 
-export async function guardarContacto({ nombre, email, mensaje }: Contacto) {
+export async function guardarContacto({ nombre, email, mensaje, empresa }: Contacto) {
     try {
         if (!nombre || !email || !mensaje) {
             throw new Error('Todos los campos son obligatorios')
+        }
+        if (empresa) {
+            throw new Error('Detección de bot')
         }
 
         const { error } = await supabase.from('contactos').insert([{ nombre, email, mensaje }])

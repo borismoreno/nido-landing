@@ -23,6 +23,13 @@ import BaseLayout from "../layouts/BaseLayout.astro";
             </p>
 
             <form id="contacto-form" class="flex flex-col gap-4">
+                <input
+                    type="text"
+                    name="empresa"
+                    class="hidden"
+                    autocomplete="off"
+                    tabindex="-1"
+                />
                 <input type="hidden" name="form-name" value="contacto" />
 
                 <div>

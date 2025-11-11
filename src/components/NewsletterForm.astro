@@ -4,6 +4,13 @@
 
 <form id="newsletter-form" class="md:max-w-md max-w-sm mx-auto">
     <input
+        type="text"
+        name="nombre"
+        class="hidden"
+        autocomplete="off"
+        tabindex="-1"
+    />
+    <input
         type="email"
         required
         id="email"
@@ -46,7 +53,8 @@
         errorMsg.classList.add("hidden");
 
         const formData = new FormData(form);
-        const { data, error } = await actions.newsletter(formData);
+        const { data, error } =
+            await actions.newsLetterActions.newsletter(formData);
         if (error) {
             errorMsg.textContent =
                 error.message || "Ocurrió un error al suscribirte 😢";

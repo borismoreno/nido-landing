@@ -8,7 +8,8 @@ export const contactoActions = {
         input: z.object({
             nombre: z.string(),
             email: z.string().email(),
-            mensaje: z.string()
+            mensaje: z.string(),
+            empresa: z.string().optional()
         }),
         handler: async (input) => {
             return await guardarContacto(input)
